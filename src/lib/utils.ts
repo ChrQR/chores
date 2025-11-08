@@ -16,18 +16,20 @@ export type WithElementRef<T, U extends HTMLElement = HTMLElement> = T & { ref?:
 export const recurrenceToDK = (rec: string) => {
   switch (rec) {
     case "DAILY":
-      return "daglig"
+      return "dag"
     case "WEEKLY":
-      return "ugentlig"
+      return "uge"
     case "MONTHLY":
-      return "månedlig"
+      return "måned"
     default:
-      return "daglig"
+      return "dag"
   }
 }
 
-export const timeOfDayToDK = (rec: string) => {
+export const timeOfDayToDK = (rec: string | null) => {
   switch (rec) {
+    case null:
+      return "hele dagen"
     case "MORNING":
       return "morgen"
     case "AFTERNOON":

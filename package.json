@@ -33,11 +33,14 @@
 		"clsx": "^2.1.1",
 		"drizzle-kit": "^0.31.5",
 		"drizzle-orm": "^0.44.6",
+		"mode-watcher": "^1.1.0",
 		"prettier": "^3.6.2",
 		"prettier-plugin-svelte": "^3.4.0",
 		"prettier-plugin-tailwindcss": "^0.7.1",
 		"svelte": "^5.41.0",
 		"svelte-check": "^4.3.3",
+		"svelte-sonner": "^1.0.5",
+		"svoast": "^3.0.3",
 		"tailwind-merge": "^3.3.1",
 		"tailwind-variants": "^3.1.1",
 		"tailwindcss": "^4.1.14",
@@ -50,6 +53,7 @@
 		"dotenv": "^17.2.3",
 		"drizzle-zod": "^0.8.3",
 		"postgres": "^3.4.7",
+		"uuid": "^13.0.0",
 		"ws": "^8.18.3",
 		"zod": "^4.1.12"
 	}

@@ -1,30 +1,41 @@
 <script lang="ts">
 	import { enhance } from '$app/forms';
-	import BasicInput from '$lib/components/BasicInput.svelte';
 	import { Alert } from '$lib/components/ui/alert';
 	import AlertDescription from '$lib/components/ui/alert/alert-description.svelte';
 	import AlertTitle from '$lib/components/ui/alert/alert-title.svelte';
 	import { Button } from '$lib/components/ui/button';
+	import { Minus, Plus } from '@lucide/svelte';
 	import type { ActionData, PageData } from './$types';
-	import IntervalSelector from './intervalSelector.svelte';
-	import RecurrenceSelect from './recurrenceSelect.svelte';
-	import TimeOfDaySelector from './timeOfDaySelector.svelte';
+	import SubTaskForm from './subTaskForm.svelte';
+	import TaskForm from './taskForm.svelte';
 	let { data, form }: { data: PageData; form: ActionData } = $props();
 	let timeOfDayOptions = data.timeOfDayOptions;
+	let recurrenceOptions = data.options;
+
+	let subTaskCounter = $state(0);
 </script>
 
 <h2>Ny Opgave</h2>
 
 <form method="POST" class="mt-6" use:enhance>
 	<div class="mt-4 space-y-4">
-		<BasicInput type="text" name="title" label="Titel" required={true} />
-		<BasicInput type="text" name="description" label="Beskrivelse" />
-		<div class="flex gap-2">
-			<IntervalSelector />
-			<RecurrenceSelect options={data.options} />
+		<div class="mt-4 space-y-4">
+			<TaskForm {recurrenceOptions} {timeOfDayOptions} />
+			<Button variant="ghost" onclick={() => (subTaskCounter += 1)}
+				><Plus /> Tilfoej underopgave</Button
+			>
+			{#each Array.from({ length: subTaskCounter }, (_, i) => i + 1) as _, idx}
+				<div class="flex w-full gap-2">
+					<SubTaskForm {idx} />
+					<div>
+						<Button onclick={() => (subTaskCounter -= 1)} variant="ghost"
+							><Minus class="text-red-500" />Fjern</Button
+						>
+					</div>
+				</div>
+			{/each}
 		</div>
-		<TimeOfDaySelector {timeOfDayOptions} />
-		<Button type="reset" variant="ghost">Nulstil</Button>
+		<Button type="reset" variant="outline">Nulstil</Button>
 		<Button type="submit">Gem</Button>
 	</div>
 </form>

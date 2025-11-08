@@ -22,6 +22,7 @@ export const task = pgTable('task', {
   recurrenceInterval: integer('recurrenceInterval').default(1).notNull(),
   timeOfDay: timeOfDayEnum('timeOfDay'),
   isActive: boolean('isActive').default(true).notNull(),
+  lastCompletion: timestamp('lastCompletion'),
   createdAt: timestamp('createdAt').defaultNow(),
 })
 
@@ -33,7 +34,7 @@ export const taskRelations = relations(task, ({ many }) => ({
 export const subTask = pgTable('subTask', {
   id: uuid('id').defaultRandom().unique(),
   title: text('title').notNull(),
-  taskId: uuid('taskId').notNull(),
+  taskId: uuid('taskId').notNull().references(() => task.id, { onDelete: 'cascade' }),
   createdAt: timestamp('createdAt').defaultNow(),
 });
 
@@ -48,8 +49,8 @@ export const subtaskRelations = relations(subTask, ({ one, many }) => ({
 
 export const taskCompletion = pgTable('taskCompletion', {
   id: uuid('id').defaultRandom().unique(),
-  taskId: uuid('taskId').notNull(),
-  userId: uuid('userId').notNull(),
+  taskId: uuid('taskId').notNull().references(() => task.id, { onDelete: 'cascade' }),
+  userId: uuid('userId').notNull().references(() => user.id, { onDelete: 'cascade' }),
   createdAt: timestamp('createdAt').defaultNow(),
 });
 
@@ -66,8 +67,8 @@ export const taskCompletionRelations = relations(taskCompletion, ({ one }) => ({
 
 export const subTaskCompletion = pgTable('subTaskCompletion', {
   id: uuid('id').defaultRandom().unique(),
-  subTaskId: uuid('subTaskId').notNull(),
-  userId: uuid('userId').notNull(),
+  subTaskId: uuid('subTaskId').notNull().references(() => subTask.id, { onDelete: 'cascade' }),
+  userId: uuid('userId').notNull().references(() => user.id, { onDelete: 'cascade' }),
   createdAt: timestamp('createdAt').defaultNow(),
 })
 

@@ -7,11 +7,6 @@
 </script>
 
 <div>
-	<a href="/tasks/new">
-		<Button variant="ghost">
-			<Plus /> <span>Add Task</span>
-		</Button>
-	</a>
 	<h1>Daily Tasks</h1>
 	{#if data.tasks.length === 0}
 		<p>No tasks for today!</p>

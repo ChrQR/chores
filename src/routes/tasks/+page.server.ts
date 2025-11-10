@@ -4,7 +4,12 @@ import type { Actions, PageServerLoad } from "./$types";
 import { task } from "$lib/server/db/schema";
 import { fail } from "@sveltejs/kit";
 
-export const load: PageServerLoad = async () => {
+export const load: PageServerLoad = async ({ url }) => {
+  const createRedirect = url.searchParams.get("create")
+  if (createRedirect) {
+    url.searchParams.delete("create")
+  }
+
   const tasks = await db.query.task.findMany({
     with: {
       subTasks: {
@@ -14,7 +19,7 @@ export const load: PageServerLoad = async () => {
       }
     }
   })
-  return { tasks }
+  return { tasks, createSuccess: createRedirect ? true : false }
 }
 
 export const actions = {
